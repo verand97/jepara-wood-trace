@@ -46,10 +46,10 @@
             </header>
 
             <!-- Main Content -->
-            <main class="grow relative overflow-hidden">
+            <main class="grow relative">
                 <!-- Toast Flash Messages -->
                 @if(session('success'))
-                    <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8 z-50 relative animate-fade-in">
+                    <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8 z-30 relative animate-fade-in">
                         <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-xl shadow-sm flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -60,7 +60,7 @@
                     </div>
                 @endif
                 @if(session('error'))
-                    <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8 z-50 relative animate-fade-in">
+                    <div class="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8 z-30 relative animate-fade-in">
                         <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-xl shadow-sm flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -75,7 +75,7 @@
                 <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-earth-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none z-0"></div>
                 <div class="fixed bottom-[-10%] right-[-5%] w-96 h-96 bg-earth-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none z-0"></div>
 
-                <div class="relative z-10 w-full h-full">
+                <div class="relative z-10 w-full">
                     {{ $slot }}
                 </div>
             </main>

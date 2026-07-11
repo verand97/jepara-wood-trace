@@ -45,7 +45,7 @@ class CheckoutController extends Controller
         // Clear cart
         session()->forget('cart');
 
-        return redirect()->route('checkout.success', $order->id)->with('success', 'Pesanan Anda berhasil diproses secara simulasi!');
+        return redirect()->route('checkout.success', $order->id);
     }
 
     public function success(string $id)
