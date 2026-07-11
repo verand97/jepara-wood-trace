@@ -92,5 +92,6 @@
                 </div>
             </footer>
         </div>
+        @stack('modals')
     </body>
 </html>

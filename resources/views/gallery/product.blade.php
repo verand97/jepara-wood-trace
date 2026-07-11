@@ -10,19 +10,21 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white p-6 sm:p-10 rounded-3xl border border-earth-200 shadow-xl">
-            <!-- Left: Model Viewer AR -->
-            <div class="bg-earth-100 rounded-2xl overflow-hidden aspect-square border border-earth-200 relative">
-                @php
-                    $imageUrl = null;
-                    if(is_array($product->images) && count($product->images) > 0) {
-                        $imageUrl = asset('images/products/' . $product->images[0]);
-                    } elseif(file_exists(public_path('images/products/' . $product->id . '.jpg'))) {
-                        $imageUrl = asset('images/products/' . $product->id . '.jpg');
-                    }
-                @endphp
-
+            <!-- Left: Image Viewer -->
+            @php
+                $imageUrl = null;
+                if(is_array($product->images) && count($product->images) > 0) {
+                    $imageUrl = asset('images/products/' . $product->images[0]);
+                } elseif(file_exists(public_path('images/products/' . $product->id . '.jpg'))) {
+                    $imageUrl = asset('images/products/' . $product->id . '.jpg');
+                }
+            @endphp
+            <div class="bg-earth-100 rounded-2xl overflow-hidden aspect-square border border-earth-200 relative group @if($imageUrl) cursor-pointer @endif" @if($imageUrl) onclick="openImageModal()" @endif>
                 @if($imageUrl)
-                    <img src="{{ $imageUrl }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="{{ $imageUrl }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                    </div>
                 @else
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-earth-500">
                         <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
@@ -94,4 +96,38 @@
             </div>
         </div>
     </div>
+
+    @push('modals')
+        @if($imageUrl ?? false)
+            <!-- Image Modal -->
+            <div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black/90 p-4 sm:p-8 backdrop-blur-sm" style="z-index: 9999;" onclick="closeImageModal()">
+                <button onclick="closeImageModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-black/50 hover:bg-black p-2 rounded-full transition-all" style="z-index: 10000;">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <img src="{{ $imageUrl }}" alt="{{ $product->title }}" class="max-w-[90vw] max-h-[90vh] object-contain rounded shadow-2xl relative" style="z-index: 9999;" onclick="event.stopPropagation()">
+            </div>
+
+            <script>
+                function openImageModal() {
+                    const modal = document.getElementById('imageModal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+                function closeImageModal() {
+                    const modal = document.getElementById('imageModal');
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+                
+                // Close on Escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape') {
+                        closeImageModal();
+                    }
+                });
+            </script>
+        @endif
+    @endpush
 </x-layout>
