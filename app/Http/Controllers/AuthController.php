@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -13,8 +15,19 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Mock login
+        $user = User::firstOrCreate(
+            ['email' => 'admin@jeparawoodtrace.com'],
+            ['name' => 'Admin Jepara', 'password' => bcrypt('password')]
+        );
+        Auth::login($user);
+
         return redirect()->route('admin.dashboard')->with('success', 'Berhasil masuk secara simulasi.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('home')->with('success', 'Anda telah berhasil keluar.');
     }
 
     public function showRegister()

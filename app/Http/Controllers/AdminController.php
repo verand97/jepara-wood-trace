@@ -20,6 +20,12 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('products', 'totalProducts', 'outOfStock', 'totalArtists', 'totalOrders'));
     }
 
+    public function orders()
+    {
+        $orders = Order::with(['orderItems.product'])->latest()->get();
+        return view('admin.orders', compact('orders'));
+    }
+
     public function create()
     {
         $artists = Artist::all();
@@ -60,14 +66,14 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit(string $id)
     {
         $product = Product::findOrFail($id);
         $artists = Artist::all();
         return view('admin.edit', compact('product', 'artists'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
         
@@ -103,7 +109,7 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Produk berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
         $product->delete();

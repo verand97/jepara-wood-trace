@@ -22,10 +22,10 @@
                 <div class="text-earth-500 text-sm font-medium mb-1">Total Seniman</div>
                 <div class="text-3xl font-bold text-earth-900">{{ $totalArtists }}</div>
             </div>
-            <div class="bg-white rounded-2xl p-6 border border-earth-200 shadow-sm flex flex-col justify-between">
-                <div class="text-earth-500 text-sm font-medium mb-1">Total Pesanan</div>
+            <a href="{{ route('admin.orders') }}" class="bg-white rounded-2xl p-6 border border-earth-200 shadow-sm flex flex-col justify-between hover:shadow-md transition group">
+                <div class="text-earth-500 text-sm font-medium mb-1 group-hover:text-earth-900 transition">Total Pesanan (Lihat Detail)</div>
                 <div class="text-3xl font-bold text-earth-900">{{ $totalOrders }}</div>
-            </div>
+            </a>
             <div class="bg-white rounded-2xl p-6 border border-earth-200 shadow-sm flex flex-col justify-between relative overflow-hidden">
                 <div class="text-red-500 text-sm font-medium mb-1">Stok Habis (Kosong)</div>
                 <div class="text-3xl font-bold text-red-600">{{ $outOfStock }}</div>

@@ -21,11 +21,15 @@
                     <svg class="w-6 h-6 text-earth-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     Jepara<span class="font-normal text-earth-500">WoodTrace</span>
                 </a>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="{{ route('gallery.index') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.gallery') }}</a>
-                    <a href="{{ route('pages.artisans') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.artisans') }}</a>
-                    <a href="{{ route('pages.svlk') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.svlk_check') }}</a>
-                    <a href="{{ route('pages.about') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.about') }}</a>
+                <nav class="hidden md:flex items-center gap-8 font-medium text-earth-800">
+                    <a href="{{ route('gallery.index') }}" class="hover:text-earth-500 transition">Gallery</a>
+                    <a href="{{ route('pages.artisans') }}" class="hover:text-earth-500 transition">Artisans</a>
+                    <a href="{{ route('pages.svlk') }}" class="hover:text-earth-500 transition">SVLK Check</a>
+                    <a href="{{ route('pages.about') }}" class="hover:text-earth-500 transition">About</a>
+                    <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition border-l border-earth-200 pl-8">Pesanan Saya</a>
+                    @if(Request::is('admin*'))
+                        <a href="{{ route('admin.dashboard') }}" class="text-earth-900 border-b-2 border-earth-900 font-bold ml-4">Admin</a>
+                    @endif
                 </nav>
                 <div class="flex items-center space-x-4">
                     <!-- Language Switcher -->
@@ -35,7 +39,13 @@
                         <a href="{{ route('lang.switch', 'id') }}" class="text-sm font-medium {{ app()->getLocale() == 'id' ? 'text-earth-800' : 'text-earth-500 hover:text-earth-800' }}">ID</a>
                     </div>
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.dashboard') }}</a>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-bold text-earth-800 hidden sm:inline">Hi, {{ Auth::user()->name }}</span>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-sm font-medium text-earth-500 hover:text-red-500 transition duration-300">Log out</button>
+                            </form>
+                        </div>
                     @else
                         <a href="{{ route('login') }}" class="text-sm font-medium hover:text-earth-500 transition duration-300">{{ __('messages.log_in') }}</a>
                         @if (Route::has('register'))
