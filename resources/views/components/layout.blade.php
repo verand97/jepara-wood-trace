@@ -28,7 +28,9 @@
                     <a href="{{ route('pages.about') }}" class="hover:text-earth-500 transition">About</a>
                     <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition">Pesanan Saya</a>
                     @auth
-                        <a href="{{ route('admin.dashboard') }}" class="border-l border-earth-200 pl-8 {{ Request::is('admin*') ? 'text-earth-900 font-bold' : 'hover:text-earth-500 transition' }}">Admin Dashboard</a>
+                        @if(Auth::user()->is_admin)
+                            <a href="{{ route('admin.dashboard') }}" class="border-l border-earth-200 pl-8 {{ Request::is('admin*') ? 'text-earth-900 font-bold' : 'hover:text-earth-500 transition' }}">Admin Dashboard</a>
+                        @endif
                     @endauth
                 </nav>
                 <div class="flex items-center space-x-4">

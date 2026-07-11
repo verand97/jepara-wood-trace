@@ -36,32 +36,34 @@ Route::get('/svlk-check', function (Request $request) {
 Route::get('/about', function () {
     return view('pages.about');
 })->name('pages.about');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
+    
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+});
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post')->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post')->middleware('guest');
 
-Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
-Route::get('/admin/products/create', [AdminController::class, 'create'])->name('admin.products.create');
-Route::post('/admin/products', [AdminController::class, 'store'])->name('admin.products.store');
-Route::get('/admin/products/{id}/edit', [AdminController::class, 'edit'])->name('admin.products.edit');
-Route::put('/admin/products/{id}', [AdminController::class, 'update'])->name('admin.products.update');
-Route::delete('/admin/products/{id}', [AdminController::class, 'destroy'])->name('admin.products.destroy');
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::get('/products/create', [AdminController::class, 'create'])->name('products.create');
+    Route::post('/products', [AdminController::class, 'store'])->name('products.store');
+    Route::get('/products/{id}/edit', [AdminController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{id}', [AdminController::class, 'update'])->name('products.update');
+    Route::delete('/products/{id}', [AdminController::class, 'destroy'])->name('products.destroy');
+});
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'id'])) {
         session()->put('locale', $locale);
