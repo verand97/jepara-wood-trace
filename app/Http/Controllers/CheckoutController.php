@@ -40,6 +40,9 @@ class CheckoutController extends Controller
                 'quantity' => $item['quantity'],
                 'price' => $item['price']
             ]);
+            
+            // Kurangi stok produk
+            \App\Models\Product::where('id', $id)->decrement('stock', $item['quantity']);
         }
 
         // Clear cart
