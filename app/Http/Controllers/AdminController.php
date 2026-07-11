@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'artist_id' => 'required|exists:artists,id',
+            'artist_name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'production_method' => 'required|in:Hand-Carved,CNC-Assisted',
@@ -52,9 +52,11 @@ class AdminController extends Controller
             $images[] = $filename;
         }
 
+        $artist = Artist::firstOrCreate(['name' => $request->artist_name]);
+
         Product::create([
             'title' => $request->title,
-            'artist_id' => $request->artist_id,
+            'artist_id' => $artist->id,
             'price' => $request->price,
             'stock' => $request->stock,
             'production_method' => $request->production_method,
@@ -79,7 +81,7 @@ class AdminController extends Controller
         
         $request->validate([
             'title' => 'required|string|max:255',
-            'artist_id' => 'required|exists:artists,id',
+            'artist_name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'production_method' => 'required|in:Hand-Carved,CNC-Assisted',
@@ -95,9 +97,11 @@ class AdminController extends Controller
             $images = [$filename]; // Replace old image or append based on requirements (replacing here for simplicity)
         }
 
+        $artist = Artist::firstOrCreate(['name' => $request->artist_name]);
+
         $product->update([
             'title' => $request->title,
-            'artist_id' => $request->artist_id,
+            'artist_id' => $artist->id,
             'price' => $request->price,
             'stock' => $request->stock,
             'production_method' => $request->production_method,

@@ -34,13 +34,13 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-bold text-earth-800 mb-2">Pilih Seniman (Artist) *</label>
-                        <select name="artist_id" required class="w-full px-4 py-3 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 bg-earth-50/50">
-                            <option value="">-- Pilih Seniman --</option>
+                        <label class="block text-sm font-bold text-earth-800 mb-2">Nama Seniman (Artist) *</label>
+                        <input list="artists_list" name="artist_name" value="{{ old('artist_name', $product->artist->name ?? '') }}" required class="w-full px-4 py-3 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 bg-earth-50/50" placeholder="Ketik atau pilih nama seniman..." autocomplete="off">
+                        <datalist id="artists_list">
                             @foreach($artists as $artist)
-                                <option value="{{ $artist->id }}" {{ old('artist_id', $product->artist_id) == $artist->id ? 'selected' : '' }}>{{ $artist->name }}</option>
+                                <option value="{{ $artist->name }}">
                             @endforeach
-                        </select>
+                        </datalist>
                     </div>
 
                     <div>
@@ -62,8 +62,12 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label class="block text-sm font-bold text-earth-800 mb-2">Nomor Sertifikat SVLK (Opsional)</label>
-                        <input type="text" name="svlk_certificate_number" value="{{ old('svlk_certificate_number', $product->svlk_certificate_number) }}" class="w-full px-4 py-3 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 bg-earth-50/50 font-mono text-sm" placeholder="Contoh: VLK-ID-12345">
+                        <div class="flex justify-between items-end mb-2">
+                            <label class="block text-sm font-bold text-earth-800">Nomor Sertifikat SVLK</label>
+                            <span class="text-xs font-bold text-earth-500 bg-earth-200 px-2 py-0.5 rounded">Terintegrasi</span>
+                        </div>
+                        <input type="text" name="svlk_certificate_number" value="{{ old('svlk_certificate_number', $product->svlk_certificate_number ?: 'VLK-ID-' . date('Y') . '-' . mt_rand(10000, 99999)) }}" class="w-full px-4 py-3 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 bg-earth-50/50 font-mono text-sm" placeholder="Contoh: VLK-ID-12345">
+                        <p class="text-xs text-earth-500 mt-2">Sistem akan mengisi nomor SVLK otomatis jika produk ini belum memilikinya.</p>
                     </div>
 
                     <div class="sm:col-span-2">

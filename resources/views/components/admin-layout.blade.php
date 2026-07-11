@@ -13,13 +13,13 @@
     <body class="bg-earth-50 text-earth-800 font-sans antialiased flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <aside class="w-72 bg-gradient-to-b from-earth-900 to-black text-earth-100 flex flex-col h-full shrink-0 shadow-2xl relative z-20 transition-all duration-300">
+        <aside class="w-72 bg-linear-to-b from-earth-900 to-black text-earth-100 flex flex-col h-full shrink-0 shadow-2xl relative z-20 transition-all duration-300">
             <!-- Decorative background element in sidebar -->
             <div class="absolute top-0 left-0 w-full h-64 bg-white opacity-5 mix-blend-overlay pointer-events-none rounded-br-[100px]"></div>
 
             <div class="p-8 relative z-10">
                 <a href="{{ route('admin.dashboard') }}" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-earth-400 to-earth-600 rounded-xl flex items-center justify-center shadow-lg shadow-earth-500/30">
+                    <div class="w-10 h-10 bg-linear-to-br from-earth-400 to-earth-600 rounded-xl flex items-center justify-center shadow-lg shadow-earth-500/30">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     </div>
                     <div class="leading-tight">
@@ -80,7 +80,7 @@
             <div class="p-6 relative z-10">
                 <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-earth-400 to-earth-600 flex items-center justify-center font-bold text-white shadow-inner">
+                        <div class="w-10 h-10 rounded-full bg-linear-to-r from-earth-400 to-earth-600 flex items-center justify-center font-bold text-white shadow-inner">
                             {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
                         </div>
                         <div class="flex-1 overflow-hidden">

@@ -11,7 +11,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    $featuredProducts = \App\Models\Product::with('artist')->latest()->take(3)->get();
+    return view('welcome', compact('featuredProducts'));
 })->name('home');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
