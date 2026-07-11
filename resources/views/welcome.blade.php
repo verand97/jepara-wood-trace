@@ -1,3 +1,6 @@
+@php
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $featuredProducts */
+@endphp
 <x-layout>
     <div class="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-20 relative">
         <div class="max-w-4xl text-center relative z-10">
@@ -19,17 +22,61 @@
                 </a>
             </div>
         </div>
+    </div>
 
-        <div class="mt-20 w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl relative group bg-white border border-earth-200 p-2 sm:p-4 z-10">
-             <div class="w-full h-[300px] sm:h-[500px] bg-[#fdfdfc] rounded-xl flex items-center justify-center border-2 border-dashed border-earth-200">
-                 <div class="text-center">
-                     <svg class="mx-auto h-16 w-16 text-earth-500 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                     </svg>
-                     <p class="text-earth-700 font-medium text-lg">{{ __('messages.model_viewer_placeholder') }}</p>
-                     <p class="text-sm text-earth-500 mt-2 max-w-xs mx-auto">{{ __('messages.interactive_preview') }}</p>
-                 </div>
-             </div>
+    <!-- Featured Products Section -->
+    <div class="bg-white border-t border-earth-200 py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-earth-900 mb-4">Koleksi Mahakarya</h2>
+                <p class="text-earth-600 max-w-2xl mx-auto text-lg">Pilihan ukiran relief kayu Jati terbaik hasil pahatan tangan seniman Jepara yang siap menghiasi dinding Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse($featuredProducts ?? [] as $product)
+                    <div class="group bg-earth-50/50 rounded-2xl border border-earth-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <a href="{{ route('gallery.product', $product->id) }}" class="block aspect-4/3 bg-earth-200 relative overflow-hidden">
+                            @if(is_array($product->images) && count($product->images) > 0)
+                                <img src="{{ asset('images/products/' . $product->images[0]) }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @elseif(file_exists(public_path('images/products/' . $product->id . '.jpg')))
+                                <img src="{{ asset('images/products/' . $product->id . '.jpg') }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="absolute inset-0 flex items-center justify-center text-earth-500 bg-earth-100">
+                                    <svg class="w-12 h-12 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                            @endif
+                        </a>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-earth-900 line-clamp-1">{{ $product->title }}</h3>
+                            </div>
+                            <div class="text-lg font-semibold text-earth-800 mb-4">IDR {{ number_format($product->price, 0, ',', '.') }}</div>
+                            <p class="text-earth-500 text-sm mb-4">Karya <a href="{{ route('gallery.artist', $product->artist_id) }}" class="hover:text-earth-800 underline decoration-earth-200 font-medium">{{ $product->artist->name }}</a></p>
+                            
+                            <div class="flex justify-between items-center mt-4 pt-4 border-t border-earth-200/60">
+                                <span class="text-xs px-2.5 py-1 bg-earth-200/50 rounded font-medium text-earth-700">{{ $product->production_method }}</span>
+                                @if($product->svlk_certificate_number)
+                                    <span class="text-xs flex items-center text-green-700 font-bold bg-green-50 px-2 py-1 rounded">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        SVLK
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full py-12 text-center text-earth-500 bg-earth-50 rounded-2xl border-2 border-dashed border-earth-200">
+                        <p class="text-lg">Belum ada karya yang ditampilkan.</p>
+                    </div>
+                @endforelse
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="{{ route('gallery.index') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-earth-800 text-white rounded-xl hover:bg-earth-900 transition-colors font-medium shadow-md">
+                    Lihat Seluruh Koleksi
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
         </div>
     </div>
 </x-layout>
