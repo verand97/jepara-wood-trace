@@ -1,4 +1,4 @@
-<x-layout>
+<x-admin-layout>
     <x-slot:title>Tambah Produk Baru | Jepara Wood-Trace</x-slot:title>
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -86,4 +86,4 @@
             </form>
         </div>
     </div>
-</x-layout>
+</x-admin-layout>

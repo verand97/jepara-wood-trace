@@ -26,10 +26,10 @@
                     <a href="{{ route('pages.artisans') }}" class="hover:text-earth-500 transition">Artisans</a>
                     <a href="{{ route('pages.svlk') }}" class="hover:text-earth-500 transition">SVLK Check</a>
                     <a href="{{ route('pages.about') }}" class="hover:text-earth-500 transition">About</a>
-                    <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition border-l border-earth-200 pl-8">Pesanan Saya</a>
-                    @if(Request::is('admin*'))
-                        <a href="{{ route('admin.dashboard') }}" class="text-earth-900 border-b-2 border-earth-900 font-bold ml-4">Admin</a>
-                    @endif
+                    <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition">Pesanan Saya</a>
+                    @auth
+                        <a href="{{ route('admin.dashboard') }}" class="border-l border-earth-200 pl-8 {{ Request::is('admin*') ? 'text-earth-900 font-bold' : 'hover:text-earth-500 transition' }}">Admin Dashboard</a>
+                    @endauth
                 </nav>
                 <div class="flex items-center space-x-4">
                     <!-- Language Switcher -->
@@ -40,7 +40,7 @@
                     </div>
                     @auth
                         <div class="flex items-center gap-4">
-                            <span class="text-sm font-bold text-earth-800 hidden sm:inline">Hi, {{ Auth::user()->name }}</span>
+                            <span class="text-sm font-bold text-earth-800 whitespace-nowrap">Hi, {{ Auth::user()->name }}</span>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit" class="text-sm font-medium text-earth-500 hover:text-red-500 transition duration-300">Log out</button>
