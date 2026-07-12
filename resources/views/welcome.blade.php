@@ -50,7 +50,7 @@
                             <div class="flex justify-between items-start mb-2">
                                 <h3 class="text-xl font-bold text-earth-900 line-clamp-1">{{ $product->title }}</h3>
                             </div>
-                            <div class="text-lg font-semibold text-earth-800 mb-4">IDR {{ number_format($product->price, 0, ',', '.') }}</div>
+                            <div class="text-lg font-semibold text-earth-800 mb-4">IDR {{ number_format((float) $product->price, 0, ',', '.') }}</div>
                             <p class="text-earth-500 text-sm mb-4">Karya <a href="{{ route('gallery.artist', $product->artist_id) }}" class="hover:text-earth-800 underline decoration-earth-200 font-medium">{{ $product->artist->name }}</a></p>
                             
                             <div class="flex justify-between items-center mt-4 pt-4 border-t border-earth-200/60">

@@ -26,7 +26,7 @@
                         </div>
                         <ul class="space-y-3 text-green-900 text-lg">
                             <li><strong class="text-green-800 tracking-wider font-mono">Nomor SVLK:</strong> {{ $product->svlk_certificate_number }}</li>
-                            <li><strong class="text-green-800">Tanggal Terbit:</strong> {{ $product->svlk_issue_date->format('d M Y') }}</li>
+                            <li><strong class="text-green-800">Tanggal Terbit:</strong> {{ \Carbon\Carbon::parse($product->svlk_issue_date)->format('d M Y') }}</li>
                             <li><strong class="text-green-800">Karya Pautan:</strong> <a href="{{ route('gallery.product', $product->id) }}" class="underline font-bold hover:text-green-700">{{ $product->title }}</a></li>
                             <li><strong class="text-green-800">Pengukir:</strong> <a href="{{ route('gallery.artist', $product->artist_id) }}" class="underline hover:text-green-700">{{ $product->artist->name }}</a></li>
                         </ul>

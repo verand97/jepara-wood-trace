@@ -37,7 +37,7 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard')->with('success', 'Berhasil masuk sebagai Admin.');
             }
 
-            return redirect()->route('home')->with('success', 'Berhasil masuk.');
+            return redirect()->route('orders.history')->with('success', 'Berhasil masuk.');
         }
 
         return back()->withErrors([
@@ -75,6 +75,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Pendaftaran berhasil. Selamat datang!');
+        return redirect()->route('orders.history')->with('success', 'Pendaftaran berhasil. Selamat datang!');
     }
 }
