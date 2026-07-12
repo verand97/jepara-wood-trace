@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
     
     Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');

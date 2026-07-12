@@ -23,9 +23,16 @@
                                 <div class="font-bold text-earth-900">{{ $order->currency }} {{ number_format($order->total_amount, 2) }}</div>
                             </div>
                             <div>
+                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">Status</div>
                                 <span class="bg-green-100 text-green-800 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wide">
                                     {{ $order->status }}
                                 </span>
+                            </div>
+                            <div>
+                                <a href="{{ route('orders.show', $order->id) }}" class="inline-flex items-center gap-1 bg-white border border-earth-300 text-earth-700 hover:bg-earth-100 px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors">
+                                    Lihat Detail
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
                             </div>
                         </div>
                         <div class="p-6">

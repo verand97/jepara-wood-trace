@@ -19,4 +19,13 @@ class OrderController extends Controller
             
         return view('orders.history', compact('orders'));
     }
+
+    public function show(string $id)
+    {
+        $userId = \Illuminate\Support\Facades\Auth::id() ?? 1;
+        
+        $order = Order::with(['orderItems.product.artist'])->where('user_id', $userId)->findOrFail($id);
+        
+        return view('orders.show', compact('order'));
+    }
 }

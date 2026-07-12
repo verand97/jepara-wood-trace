@@ -240,7 +240,23 @@
                                 <span id="notification-count" class="notif-badge-pill">0 Baru</span>
                             </div>
                             <div id="notification-list" class="notif-list">
-                                <div class="p-6 text-center text-earth-400 text-sm" id="empty-notification">Belum ada pesanan baru masuk sejak Anda membuka halaman ini.</div>
+                                @php
+                                    $recentOrders = \App\Models\Order::with('user')->latest()->take(5)->get();
+                                @endphp
+                                @forelse($recentOrders as $order)
+                                    <a href="{{ route('admin.orders.edit', $order->id) }}" class="notif-item">
+                                        <div class="bg-green-100 p-2 rounded-full shrink-0 mt-1" style="background-color: #dcfce7; color: #16a34a;">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                        </div>
+                                        <div style="flex: 1; overflow: hidden;">
+                                            <p class="text-sm font-bold text-earth-900 truncate m-0 leading-tight" style="color: #2b261f;">{{ $order->shipping_address['first_name'] ?? $order->user->name ?? 'Pelanggan' }}</p>
+                                            <p class="text-xs mt-1 mb-0 font-medium" style="color: #5c5446;">IDR {{ number_format($order->total_amount, 2) }}</p>
+                                        </div>
+                                        <span class="text-xs whitespace-nowrap" style="color: #8c8273; font-size: 0.7rem;">{{ $order->created_at->diffForHumans() }}</span>
+                                    </a>
+                                @empty
+                                    <div class="p-6 text-center text-earth-400 text-sm" id="empty-notification">Belum ada pesanan.</div>
+                                @endforelse
                             </div>
                             <a href="{{ route('admin.orders') }}" class="notif-footer border-t border-earth-100 text-sm font-bold text-earth-700 w-full block transition-colors">
                                 Lihat Semua Pesanan
