@@ -15,16 +15,16 @@
             <div class="flex-1 text-center md:text-left">
                 <h1 class="text-4xl sm:text-5xl font-bold text-earth-900 mb-4">{{ $artist->name }}</h1>
                 <div class="inline-block px-3 py-1 bg-earth-100 text-earth-800 text-xs font-semibold rounded uppercase tracking-wider mb-6">
-                    Master Artisan of Jepara
+                    {{ __('Seniman Master Jepara') }}
                 </div>
                 <div class="prose prose-earth text-earth-700 leading-relaxed max-w-none">
-                    {!! nl2br(e($artist->bio ?? 'A dedicated master carver from Desa Senenan, passing down generations of traditional woodworking techniques.')) !!}
+                    {!! nl2br(e(__($artist->bio ?? 'Seorang master pengukir dedikatif dari Desa Senenan, yang mewariskan teknik pertukangan kayu tradisional dari generasi ke generasi.'))) !!}
                 </div>
             </div>
         </div>
 
         <div class="mb-8">
-            <h2 class="text-3xl font-bold text-earth-900 border-b border-earth-200 pb-4">Portfolio & Works</h2>
+            <h2 class="text-3xl font-bold text-earth-900 border-b border-earth-200 pb-4">{{ __('Portofolio & Karya') }}</h2>
         </div>
 
         <!-- Products Grid -->
@@ -37,7 +37,7 @@
                         @elseif(file_exists(public_path('images/products/' . $product->id . '.jpg')))
                             <img src="{{ asset('images/products/' . $product->id . '.jpg') }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @else
-                            <div class="absolute inset-0 flex items-center justify-center text-earth-500">No Cover Image</div>
+                            <div class="absolute inset-0 flex items-center justify-center text-earth-500">{{ __('Tidak Ada Sampul') }}</div>
                         @endif
                     </a>
                     <div class="p-6">
@@ -46,13 +46,13 @@
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             <span class="text-earth-800 font-semibold">{{ $product->currency }} {{ number_format($product->price, 2) }}</span>
-                            <a href="{{ route('gallery.product', $product->id) }}" class="text-sm font-medium text-earth-500 hover:text-earth-900 transition">View Details &rarr;</a>
+                            <a href="{{ route('gallery.product', $product->id) }}" class="text-sm font-medium text-earth-500 hover:text-earth-900 transition">{{ __('Lihat Detail') }} &rarr;</a>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col-span-full py-12 text-center text-earth-500 bg-white/50 rounded-2xl border-2 border-dashed border-earth-200">
-                    <p class="text-lg">No works listed yet.</p>
+                    <p class="text-lg">{{ __('Belum ada karya yang ditampilkan.') }}</p>
                 </div>
             @endforelse
         </div>

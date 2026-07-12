@@ -21,7 +21,7 @@
             @endphp
             <div class="bg-earth-100 rounded-2xl overflow-hidden aspect-square border border-earth-200 relative group @if($imageUrl) cursor-pointer @endif" @if($imageUrl) onclick="openImageModal()" @endif>
                 @if($imageUrl)
-                    <img src="{{ $imageUrl }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="{{ $imageUrl }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover:scale-105">
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="mb-2 flex items-center gap-3">
                     <span class="inline-block px-3 py-1 bg-earth-100 text-earth-800 text-xs font-semibold rounded uppercase tracking-wider mb-4">{{ $product->production_method }}</span>
                     @if($product->stock <= 0)
-                        <span class="inline-block px-3 py-1 bg-red-100 text-red-800 text-xs font-bold rounded uppercase tracking-wider mb-4">Stok Habis</span>
+                        <span class="inline-block px-3 py-1 bg-red-100 text-red-800 text-xs font-bold rounded uppercase tracking-wider mb-4">{{ __('Stok Habis') }}</span>
                     @endif
                 </div>
                 <h1 class="text-4xl font-bold text-earth-900 mb-2">{{ $product->title }}</h1>
@@ -75,7 +75,7 @@
                                 <button type="button" onclick="adjustQty(1)" class="px-4 py-3 text-earth-700 hover:bg-earth-100 transition font-bold text-lg leading-none" {{ $product->stock <= 0 ? 'disabled' : '' }}>+</button>
                             </div>
                             <span class="text-sm font-bold {{ $product->stock <= 0 ? 'text-red-600' : 'text-earth-500' }}">
-                                @if(($product->stock ?? 0) > 0) Sisa Stok: {{ $product->stock }} @else Stok Habis @endif
+                                @if(($product->stock ?? 0) > 0) {{ __('Sisa Stok') }}: {{ $product->stock }} @else {{ __('Stok Habis') }} @endif
                             </span>
                         </div>
                         

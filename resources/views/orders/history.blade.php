@@ -2,8 +2,8 @@
     <x-slot:title>Riwayat Pesanan | Jepara Wood-Trace</x-slot:title>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold text-earth-900 mb-2">Riwayat Pesanan Saya</h1>
-        <p class="text-earth-600 mb-8">Daftar mahakarya Jepara yang telah Anda beli.</p>
+        <h1 class="text-3xl font-bold text-earth-900 mb-2">{{ __('Riwayat Pesanan Saya') }}</h1>
+        <p class="text-earth-600 mb-8">{{ __('Daftar mahakarya Jepara yang telah Anda beli.') }}</p>
 
         @if($orders->count() > 0)
             <div class="space-y-6">
@@ -11,32 +11,32 @@
                     <div class="bg-white rounded-2xl border border-earth-200 shadow-sm overflow-hidden">
                         <div class="bg-earth-50 px-6 py-4 border-b border-earth-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
-                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">ID Pesanan</div>
+                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">{{ __('ID Pesanan') }}</div>
                                 <div class="font-bold text-earth-900">#JWT-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</div>
                             </div>
                             <div>
-                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">Tanggal</div>
+                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">{{ __('Tanggal') }}</div>
                                 <div class="font-medium text-earth-800">{{ $order->created_at->format('d M Y, H:i') }}</div>
                             </div>
                             <div>
-                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">Total Tagihan</div>
+                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">{{ __('Total Tagihan') }}</div>
                                 <div class="font-bold text-earth-900">{{ $order->currency }} {{ number_format($order->total_amount, 2) }}</div>
                             </div>
                             <div>
-                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">Status</div>
+                                <div class="text-xs text-earth-500 font-bold uppercase mb-1">{{ __('Status') }}</div>
                                 <span class="bg-green-100 text-green-800 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wide">
                                     {{ $order->status }}
                                 </span>
                             </div>
                             <div>
                                 <a href="{{ route('orders.show', $order->id) }}" class="inline-flex items-center gap-1 bg-white border border-earth-300 text-earth-700 hover:bg-earth-100 px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors">
-                                    Lihat Detail
+                                    {{ __('Lihat Detail') }}
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 </a>
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="font-bold text-earth-800 mb-4 border-b border-earth-100 pb-2">Item yang Dibeli:</h3>
+                            <h3 class="font-bold text-earth-800 mb-4 border-b border-earth-100 pb-2">{{ __('Item yang Dibeli') }}:</h3>
                             <div class="space-y-4">
                                 @foreach($order->orderItems as $item)
                                     <div class="flex items-center gap-4">
@@ -79,9 +79,9 @@
                 <div class="w-24 h-24 bg-earth-100 rounded-full flex items-center justify-center mx-auto mb-6 text-earth-400">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                 </div>
-                <h2 class="text-2xl font-bold text-earth-900 mb-4">Belum Ada Pesanan</h2>
-                <p class="text-earth-600 mb-8">Anda belum melakukan pembelian karya seni apa pun. Silakan jelajahi galeri kami.</p>
-                <a href="{{ route('gallery.index') }}" class="px-8 py-3 bg-earth-900 text-earth-100 rounded-lg font-bold hover:bg-black transition shadow-lg inline-block">Mulai Belanja</a>
+                <h2 class="text-2xl font-bold text-earth-900 mb-4">{{ __('Belum Ada Pesanan') }}</h2>
+                <p class="text-earth-600 mb-8">{{ __('Anda belum melakukan pembelian karya seni apa pun. Silakan jelajahi galeri kami.') }}</p>
+                <a href="{{ route('gallery.index') }}" class="px-8 py-3 bg-earth-900 text-earth-100 rounded-lg font-bold hover:bg-black transition shadow-lg inline-block">{{ __('Mulai Belanja') }}</a>
             </div>
         @endif
     </div>

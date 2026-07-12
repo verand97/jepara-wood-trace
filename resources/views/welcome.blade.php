@@ -25,21 +25,21 @@
     </div>
 
     <!-- Featured Products Section -->
-    <div class="bg-white border-t border-earth-200 py-24">
+    <div class="bg-white border-t border-earth-200" style="padding-top: 6rem; padding-bottom: 6rem;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-earth-900 mb-4">Koleksi Mahakarya</h2>
-                <p class="text-earth-600 max-w-2xl mx-auto text-lg">Pilihan ukiran relief kayu Jati terbaik hasil pahatan tangan seniman Jepara yang siap menghiasi dinding Anda.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-earth-900 mb-4">{{ __('Koleksi Mahakarya') }}</h2>
+                <p class="text-earth-600 max-w-2xl mx-auto text-lg">{{ __('Pilihan ukiran relief kayu Jati terbaik hasil pahatan tangan seniman Jepara yang siap menghiasi dinding Anda.') }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($featuredProducts ?? [] as $product)
                     <div class="group bg-earth-50/50 rounded-2xl border border-earth-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <a href="{{ route('gallery.product', $product->id) }}" class="block aspect-4/3 bg-earth-200 relative overflow-hidden">
+                        <a href="{{ route('gallery.product', $product->id) }}" class="block aspect-4/3 bg-earth-900 relative overflow-hidden">
                             @if(is_array($product->images) && count($product->images) > 0)
-                                <img src="{{ asset('images/products/' . $product->images[0]) }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ asset('images/products/' . $product->images[0]) }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                             @elseif(file_exists(public_path('images/products/' . $product->id . '.jpg')))
-                                <img src="{{ asset('images/products/' . $product->id . '.jpg') }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ asset('images/products/' . $product->id . '.jpg') }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                             @else
                                 <div class="absolute inset-0 flex items-center justify-center text-earth-500 bg-earth-100">
                                     <svg class="w-12 h-12 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -51,7 +51,7 @@
                                 <h3 class="text-xl font-bold text-earth-900 line-clamp-1">{{ $product->title }}</h3>
                             </div>
                             <div class="text-lg font-semibold text-earth-800 mb-4">IDR {{ number_format((float) $product->price, 0, ',', '.') }}</div>
-                            <p class="text-earth-500 text-sm mb-4">Karya <a href="{{ route('gallery.artist', $product->artist_id) }}" class="hover:text-earth-800 underline decoration-earth-200 font-medium">{{ $product->artist->name }}</a></p>
+                            <p class="text-earth-500 text-sm mb-4">{{ __('Karya') }} <a href="{{ route('gallery.artist', $product->artist_id) }}" class="hover:text-earth-800 underline decoration-earth-200 font-medium">{{ $product->artist->name }}</a></p>
                             
                             <div class="flex justify-between items-center mt-4 pt-4 border-t border-earth-200/60">
                                 <span class="text-xs px-2.5 py-1 bg-earth-200/50 rounded font-medium text-earth-700">{{ $product->production_method }}</span>
@@ -66,14 +66,14 @@
                     </div>
                 @empty
                     <div class="col-span-full py-12 text-center text-earth-500 bg-earth-50 rounded-2xl border-2 border-dashed border-earth-200">
-                        <p class="text-lg">Belum ada karya yang ditampilkan.</p>
+                        <p class="text-lg">{{ __('Belum ada karya yang ditampilkan.') }}</p>
                     </div>
                 @endforelse
             </div>
             
-            <div class="mt-12 text-center">
-                <a href="{{ route('gallery.index') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-earth-800 text-white rounded-xl hover:bg-earth-900 transition-colors font-medium shadow-md">
-                    Lihat Seluruh Koleksi
+            <div class="text-center" style="margin-top: 5rem;">
+                <a href="{{ route('gallery.index') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-earth-800 text-white rounded-xl hover:bg-earth-900 transition-colors font-medium shadow-md text-lg">
+                    {{ __('Lihat Seluruh Koleksi') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
             </div>

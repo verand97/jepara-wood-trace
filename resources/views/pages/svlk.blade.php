@@ -3,12 +3,12 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-earth-900 mb-4">{{ __('Verifikasi Legalitas Kayu (SVLK)') }}</h1>
-            <p class="text-earth-700">Pastikan keaslian dan legalitas karya seni ukir Jepara Anda dengan melacak nomor sertifikat SVLK yang terdaftar di basis data kami.</p>
+            <p class="text-earth-700">{{ __('Pastikan keaslian dan legalitas karya seni ukir Jepara Anda dengan melacak nomor sertifikat SVLK yang terdaftar di basis data kami.') }}</p>
         </div>
 
         <div class="bg-white rounded-3xl p-8 border border-earth-200 shadow-xl mb-12">
             <form action="{{ route('pages.svlk') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
-                <input type="text" name="q" value="{{ request('q') }}" placeholder="Contoh: SVLK-JPR-2023-0941" class="flex-1 px-6 py-4 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 text-lg font-mono tracking-wider" required>
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ __('Contoh:') }} SVLK-JPR-2023-0941" class="flex-1 px-6 py-4 rounded-xl border border-earth-200 focus:outline-none focus:ring-2 focus:ring-earth-500 text-lg font-mono tracking-wider" required>
                 <button type="submit" class="px-8 py-4 bg-earth-800 text-earth-100 rounded-xl font-medium hover:bg-earth-900 transition shadow-md whitespace-nowrap flex gap-2 justify-center items-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     {{ __('Cek Sertifikat') }}

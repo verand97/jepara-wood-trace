@@ -22,14 +22,14 @@
                     Jepara<span class="font-normal text-earth-500">WoodTrace</span>
                 </a>
                 <nav class="hidden md:flex items-center gap-8 font-medium text-earth-800">
-                    <a href="{{ route('gallery.index') }}" class="hover:text-earth-500 transition">Gallery</a>
-                    <a href="{{ route('pages.artisans') }}" class="hover:text-earth-500 transition">Artisans</a>
-                    <a href="{{ route('pages.svlk') }}" class="hover:text-earth-500 transition">SVLK Check</a>
-                    <a href="{{ route('pages.about') }}" class="hover:text-earth-500 transition">About</a>
-                    <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition">Pesanan Saya</a>
+                    <a href="{{ route('gallery.index') }}" class="hover:text-earth-500 transition">{{ __('Gallery') }}</a>
+                    <a href="{{ route('pages.artisans') }}" class="hover:text-earth-500 transition">{{ __('Artisans') }}</a>
+                    <a href="{{ route('pages.svlk') }}" class="hover:text-earth-500 transition">{{ __('SVLK Check') }}</a>
+                    <a href="{{ route('pages.about') }}" class="hover:text-earth-500 transition">{{ __('About') }}</a>
+                    <a href="{{ route('orders.history') }}" class="hover:text-earth-500 transition">{{ __('Pesanan Saya') }}</a>
                     @auth
                         @if(Auth::user()->is_admin)
-                            <a href="{{ route('admin.dashboard') }}" class="border-l border-earth-200 pl-8 {{ Request::is('admin*') ? 'text-earth-900 font-bold' : 'hover:text-earth-500 transition' }}">Admin Dashboard</a>
+                            <a href="{{ route('admin.dashboard') }}" class="border-l border-earth-200 pl-8 {{ Request::is('admin*') ? 'text-earth-900 font-bold' : 'hover:text-earth-500 transition' }}">{{ __('Dashboard Admin') }}</a>
                         @endif
                     @endauth
                 </nav>
@@ -45,7 +45,7 @@
                             <span class="text-sm font-bold text-earth-800 whitespace-nowrap">Hi, {{ Auth::user()->name }}</span>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
-                                <button type="submit" class="text-sm font-medium text-earth-500 hover:text-red-500 transition duration-300">Log out</button>
+                                <button type="submit" class="text-sm font-medium text-earth-500 hover:text-red-500 transition duration-300">{{ __('Keluar') }}</button>
                             </form>
                         </div>
                     @else
