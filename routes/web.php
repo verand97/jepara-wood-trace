@@ -63,6 +63,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/products/{id}/edit', [AdminController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [AdminController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [AdminController::class, 'destroy'])->name('products.destroy');
+    Route::get('/users', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [\App\Http\Controllers\AdminUserController::class, 'create'])->name('users.create');
+    Route::post('/users', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [\App\Http\Controllers\AdminUserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [\App\Http\Controllers\AdminUserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [\App\Http\Controllers\AdminUserController::class, 'destroy'])->name('users.destroy');
 });
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'id'])) {
