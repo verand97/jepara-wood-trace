@@ -44,22 +44,48 @@
 
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-earth-200">
                     <h2 class="text-lg font-bold text-earth-900 mb-4 border-b border-earth-100 pb-2">Informasi Pembeli</h2>
-                    <div class="space-y-3 text-sm">
+                    <div class="space-y-4 text-sm">
                         <div>
-                            <span class="block text-earth-500 font-medium text-xs uppercase tracking-wider mb-1">Nama</span>
-                            <span class="font-bold text-earth-800">{{ $order->shipping_address['first_name'] ?? 'Guest' }} {{ $order->shipping_address['last_name'] ?? '' }}</span>
+                            <span class="block text-earth-500 font-medium text-xs uppercase tracking-wider mb-1">Data Akun</span>
+                            <span class="font-bold text-earth-800 block">{{ $order->user->name ?? 'Guest' }} (ID: {{ $order->user_id }})</span>
+                            <span class="text-earth-600 block">{{ $order->user->email ?? '-' }}</span>
                         </div>
-                        <div>
-                            <span class="block text-earth-500 font-medium text-xs uppercase tracking-wider mb-1">Email / Kontak</span>
-                            <span class="font-medium text-earth-800">{{ $order->shipping_address['email'] ?? $order->user->email ?? '-' }}<br>{{ $order->shipping_address['phone'] ?? '-' }}</span>
-                        </div>
+                        
                         <div>
                             <span class="block text-earth-500 font-medium text-xs uppercase tracking-wider mb-1">Alamat Pengiriman</span>
-                            <span class="font-medium text-earth-800">
-                                {{ $order->shipping_address['address'] ?? '-' }}<br>
-                                {{ $order->shipping_address['city'] ?? '' }}, {{ $order->shipping_address['postal_code'] ?? '' }}<br>
-                                {{ $order->shipping_address['country'] ?? '' }}
-                            </span>
+                            @if(!empty($order->shipping_address))
+                                <span class="font-medium text-earth-800 block">
+                                    {{ $order->shipping_address['first_name'] ?? '' }} {{ $order->shipping_address['last_name'] ?? '' }}<br>
+                                    @if(isset($order->shipping_address['phone'])) {{ $order->shipping_address['phone'] }}<br> @endif
+                                    {{ $order->shipping_address['address'] ?? 'Alamat belum dilengkapi.' }}<br>
+                                    @if(isset($order->shipping_address['city']) || isset($order->shipping_address['postal_code']))
+                                        {{ $order->shipping_address['city'] ?? '' }} {{ $order->shipping_address['postal_code'] ?? '' }}<br>
+                                    @endif
+                                    {{ $order->shipping_address['country'] ?? '' }}
+                                </span>
+                            @else
+                                <span class="text-earth-400 italic block">Tidak ada data pengiriman.</span>
+                            @endif
+                        </div>
+
+                        <div class="pt-2 border-t border-earth-100">
+                            <span class="block text-earth-500 font-medium text-xs uppercase tracking-wider mb-1">Transaksi</span>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <div>
+                                    <span class="text-xs text-earth-400 block">Metode</span>
+                                    <span class="font-semibold text-earth-800 uppercase">{{ $order->payment_gateway ?? '-' }}</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-earth-400 block">ID Pembayaran</span>
+                                    <span class="font-semibold text-earth-800 break-all">{{ $order->payment_id ?? '-' }}</span>
+                                </div>
+                                <div class="col-span-2">
+                                    <span class="text-xs text-earth-400 block">Status Verifikasi SVLK</span>
+                                    <span class="inline-flex mt-1 items-center px-2 py-0.5 rounded text-xs font-medium {{ $order->svlk_verification_status === 'verified' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                        {{ $order->svlk_verification_status ?? 'pending' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -22,14 +22,19 @@ class CheckoutController extends Controller
             'user_id' => \Illuminate\Support\Facades\Auth::id() ?? 1, 
             'total_amount' => $totalAmount,
             'currency' => 'IDR',
-            'status' => 'PAID_MOCK', 
-            'svlk_verification_status' => 'PENDING',
+            'status' => 'paid', 
+            'svlk_verification_status' => 'pending',
             'payment_gateway' => $request->payment_method ?? 'midtrans',
-            'payment_id' => 'mock_txn_' . uniqid(),
+            'payment_id' => 'TRX-' . strtoupper(\Illuminate\Support\Str::random(12)),
             'shipping_address' => [
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'address' => 'Jalan Mock 123'
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+                'country' => $request->country,
+                'phone' => $request->phone ?? null,
+                'email' => collect($cart)->first()['user_email'] ?? auth()->user()->email ?? null,
             ]
         ]);
 

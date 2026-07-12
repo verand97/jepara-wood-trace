@@ -13,7 +13,7 @@
     <body class="bg-earth-50 text-earth-800 font-sans antialiased flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <aside class="w-72 bg-linear-to-b from-earth-900 to-black text-earth-100 flex flex-col h-full shrink-0 shadow-2xl relative z-20 transition-all duration-300">
+        <aside id="admin-sidebar" class="w-72 bg-linear-to-b from-earth-900 to-black text-earth-100 flex flex-col h-full shrink-0 shadow-2xl relative z-20 transition-all duration-300" style="margin-left: 0;">
             <!-- Decorative background element in sidebar -->
             <div class="absolute top-0 left-0 w-full h-64 bg-white opacity-5 mix-blend-overlay pointer-events-none rounded-br-[100px]"></div>
 
@@ -114,7 +114,12 @@
             
             <!-- Top Header -->
             <header class="h-16 bg-white border-b border-earth-200 flex items-center justify-between px-8 shrink-0 z-10 shadow-sm">
-                <h2 class="font-bold text-earth-800">{{ $title ?? 'Admin Dashboard' }}</h2>
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="p-2 -ml-2 rounded-lg text-earth-500 hover:bg-earth-100 hover:text-earth-900 transition-colors focus:outline-none focus:ring-2 focus:ring-earth-200" title="Toggle Sidebar">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <h2 class="font-bold text-earth-800">{{ $title ?? 'Admin Dashboard' }}</h2>
+                </div>
                 <div class="flex items-center gap-4 text-sm text-earth-500">
                     <span class="bg-earth-100 px-3 py-1 rounded-full font-mono text-xs border border-earth-200">System v1.0.0</span>
                 </div>
@@ -152,5 +157,15 @@
             </main>
         </div>
         
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById('admin-sidebar');
+                if (sidebar.style.marginLeft === '-18rem') {
+                    sidebar.style.marginLeft = '0';
+                } else {
+                    sidebar.style.marginLeft = '-18rem';
+                }
+            }
+        </script>
     </body>
 </html>

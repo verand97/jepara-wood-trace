@@ -32,7 +32,7 @@ class AdminController extends Controller
         
         $availableStatuses = [
             'pending' => 'Menunggu Pembayaran',
-            'PAID_MOCK' => 'Lunas (Menunggu Diproses)',
+            'paid' => 'Lunas (Menunggu Diproses)',
             'processing' => 'Sedang Diproses/Dikemas',
             'shipped' => 'Sedang Diantar (Jasa Pengiriman)',
             'delivered' => 'Pesanan Selesai (Tiba di Tujuan)',
