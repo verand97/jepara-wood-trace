@@ -58,6 +58,60 @@
             .sidebar-collapsed .logout-btn svg {
                 margin: 0 auto;
             }
+            
+            /* Notification Dropdown Custom Styles */
+            .notif-dropdown {
+                width: 340px !important;
+                z-index: 1000 !important;
+            }
+            .notif-header {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                background-color: #fcfbf9 !important; /* bg-earth-50 */
+                border-top-left-radius: 0.75rem !important;
+                border-top-right-radius: 0.75rem !important;
+            }
+            .notif-badge-pill {
+                background-color: #e5e0d8 !important; /* bg-earth-200 */
+                color: #5c5446 !important; /* text-earth-700 */
+                padding: 2px 10px !important;
+                border-radius: 9999px !important;
+                font-size: 0.75rem !important;
+                font-weight: 700 !important;
+                white-space: nowrap !important;
+            }
+            .notif-badge-pill.new {
+                background-color: #fee2e2 !important; /* bg-red-100 */
+                color: #b91c1c !important; /* text-red-700 */
+            }
+            .notif-list {
+                max-height: 320px !important;
+                overflow-y: auto !important;
+            }
+            .notif-item {
+                display: flex !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                padding: 16px !important;
+                border-bottom: 1px solid #f3f0eb !important; /* border-earth-100 */
+                text-decoration: none !important;
+                transition: background-color 0.2s !important;
+            }
+            .notif-item:hover {
+                background-color: #fcfbf9 !important; /* bg-earth-50 */
+            }
+            .notif-footer {
+                display: block !important;
+                padding: 12px !important;
+                text-align: center !important;
+                background-color: #ffffff !important;
+                border-bottom-left-radius: 0.75rem !important;
+                border-bottom-right-radius: 0.75rem !important;
+            }
+            .notif-footer:hover {
+                background-color: #fcfbf9 !important;
+            }
         </style>
     </head>
     <body class="bg-earth-50 text-earth-800 font-sans antialiased flex h-screen overflow-hidden">
@@ -163,7 +217,7 @@
         <div class="flex-1 flex flex-col h-full overflow-hidden bg-earth-50 relative">
             
             <!-- Top Header -->
-            <header class="h-16 bg-white border-b border-earth-200 flex items-center justify-between px-8 shrink-0 z-10 shadow-sm">
+            <header class="h-16 bg-white border-b border-earth-200 flex items-center justify-between px-8 shrink-0 z-10 shadow-sm relative">
                 <div class="flex items-center gap-4">
                     <button onclick="toggleSidebar()" class="p-2 -ml-2 rounded-lg text-earth-500 hover:bg-earth-100 hover:text-earth-900 transition-colors focus:outline-none focus:ring-2 focus:ring-earth-200" title="Toggle Sidebar">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -171,7 +225,30 @@
                     <h2 class="font-bold text-earth-800">{{ $title ?? 'Admin Dashboard' }}</h2>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-earth-500">
-                    <span class="bg-earth-100 px-3 py-1 rounded-full font-mono text-xs border border-earth-200">System v1.0.0</span>
+                    
+                    <!-- Notification Bell -->
+                    <div class="relative">
+                        <button onclick="toggleNotifications(event)" class="p-2 rounded-lg text-earth-500 hover:bg-earth-100 hover:text-earth-900 transition-colors focus:outline-none relative" title="Notifikasi">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            <span id="notification-badge" class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white hidden"></span>
+                        </button>
+                        
+                        <!-- Dropdown -->
+                        <div id="notification-dropdown" class="notif-dropdown absolute right-0 mt-2 bg-white border border-earth-200 rounded-xl shadow-2xl hidden opacity-0 transform transition-all duration-200 origin-top-right scale-95" onclick="event.stopPropagation()">
+                            <div class="p-4 border-b border-earth-100 notif-header">
+                                <h3 class="font-bold text-earth-900 m-0">Notifikasi Pesanan</h3>
+                                <span id="notification-count" class="notif-badge-pill">0 Baru</span>
+                            </div>
+                            <div id="notification-list" class="notif-list">
+                                <div class="p-6 text-center text-earth-400 text-sm" id="empty-notification">Belum ada pesanan baru masuk sejak Anda membuka halaman ini.</div>
+                            </div>
+                            <a href="{{ route('admin.orders') }}" class="notif-footer border-t border-earth-100 text-sm font-bold text-earth-700 w-full block transition-colors">
+                                Lihat Semua Pesanan
+                            </a>
+                        </div>
+                    </div>
+
+                    <span class="bg-earth-100 px-3 py-1 rounded-full font-mono text-xs border border-earth-200 ml-2 hidden sm:block">System v1.0.0</span>
                 </div>
             </header>
 
@@ -205,6 +282,9 @@
                 {{ $slot }}
                 
             </main>
+            <!-- Toast Notification Container -->
+            <div id="toast-container" class="fixed bottom-8 right-8 z-50 flex flex-col gap-3"></div>
+
         </div>
         
         <script>
@@ -212,6 +292,139 @@
                 const sidebar = document.getElementById('admin-sidebar');
                 sidebar.classList.toggle('sidebar-collapsed');
             }
+
+            // Real-time Notification System
+            let lastOrderId = {{ \App\Models\Order::max('id') ?? 0 }};
+            let unreadCount = 0;
+            
+            function toggleNotifications(event) {
+                if (event) {
+                    event.stopPropagation();
+                }
+                const dropdown = document.getElementById('notification-dropdown');
+                if (dropdown.classList.contains('hidden')) {
+                    dropdown.classList.remove('hidden');
+                    // Reset unread count when opened
+                    unreadCount = 0;
+                    updateBadge();
+                    setTimeout(() => {
+                        dropdown.classList.remove('opacity-0', 'scale-95');
+                    }, 10);
+                } else {
+                    dropdown.classList.add('opacity-0', 'scale-95');
+                    setTimeout(() => {
+                        dropdown.classList.add('hidden');
+                    }, 200);
+                }
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('notification-dropdown');
+                if (!dropdown.classList.contains('hidden') && !event.target.closest('.relative')) {
+                    toggleNotifications();
+                }
+            });
+
+            function updateBadge() {
+                const badge = document.getElementById('notification-badge');
+                const countBadge = document.getElementById('notification-count');
+                
+                if (unreadCount > 0) {
+                    badge.classList.remove('hidden');
+                    countBadge.textContent = unreadCount + ' Baru';
+                    countBadge.classList.add('new');
+                } else {
+                    badge.classList.add('hidden');
+                    countBadge.textContent = '0 Baru';
+                    countBadge.classList.remove('new');
+                }
+            }
+            
+            function addNotificationToList(order) {
+                const list = document.getElementById('notification-list');
+                const emptyMsg = document.getElementById('empty-notification');
+                
+                if (emptyMsg) {
+                    emptyMsg.remove();
+                }
+                
+                const item = document.createElement('a');
+                item.href = `/admin/orders/${order.id}/edit`;
+                item.className = 'notif-item animate-fade-in';
+                item.innerHTML = `
+                    <div class="bg-green-100 p-2 rounded-full shrink-0 mt-1" style="background-color: #dcfce7; color: #16a34a;">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    </div>
+                    <div style="flex: 1; overflow: hidden;">
+                        <p class="text-sm font-bold text-earth-900 truncate m-0 leading-tight" style="color: #2b261f;">${order.customer_name}</p>
+                        <p class="text-xs mt-1 mb-0 font-medium" style="color: #5c5446;">IDR ${order.total_amount}</p>
+                    </div>
+                    <span class="text-xs whitespace-nowrap" style="color: #8c8273; font-size: 0.7rem;">Baru saja</span>
+                `;
+                
+                list.insertBefore(item, list.firstChild);
+            }
+
+            function showToast(title, message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'bg-white border-l-4 border-green-500 shadow-2xl rounded-lg p-4 flex items-start gap-4 transform transition-all duration-500 translate-y-10 opacity-0';
+                
+                toast.innerHTML = `
+                    <div class="bg-green-100 p-2 rounded-full shrink-0">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-gray-900">${title}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                `;
+                
+                container.appendChild(toast);
+                
+                // Animate in
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-10', 'opacity-0');
+                }, 10);
+                
+                // Auto remove after 6 seconds
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-x-10');
+                    setTimeout(() => toast.remove(), 500);
+                }, 6000);
+            }
+
+            function pollNewOrders() {
+                fetch(`/admin/api/check-new-orders?last_id=${lastOrderId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.has_new && data.orders.length > 0) {
+                            data.orders.forEach(order => {
+                                showToast(
+                                    'Pesanan Baru Masuk!',
+                                    `Dari: <strong>${order.customer_name}</strong><br>Total: IDR ${order.total_amount}`
+                                );
+                                
+                                addNotificationToList(order);
+                                unreadCount++;
+                                updateBadge();
+                                
+                                // Update last ID
+                                if (order.id > lastOrderId) {
+                                    lastOrderId = order.id;
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error polling new orders:', error));
+            }
+
+            // Check every 10 seconds
+            setInterval(pollNewOrders, 10000);
         </script>
     </body>
 </html>

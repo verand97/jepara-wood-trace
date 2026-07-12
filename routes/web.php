@@ -57,6 +57,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/api/check-new-orders', [AdminController::class, 'checkNewOrders'])->name('api.check-orders');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::get('/orders/{id}/edit', [AdminController::class, 'editOrder'])->name('orders.edit');
     Route::put('/orders/{id}', [AdminController::class, 'updateOrder'])->name('orders.update');

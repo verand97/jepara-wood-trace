@@ -17,8 +17,12 @@
         <!-- Products Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($products as $product)
-                <div class="group bg-white rounded-2xl border border-earth-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="group bg-white rounded-2xl border border-earth-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 {{ $product->stock <= 0 ? 'opacity-80 grayscale' : '' }}">
                     <a href="{{ route('gallery.product', $product->id) }}" class="block aspect-4/3 bg-earth-200 relative overflow-hidden">
+                        @if($product->stock <= 0)
+                            <div class="absolute top-4 right-4 bg-red-600/90 text-white px-3 py-1 text-sm font-bold rounded-lg shadow-lg z-10 backdrop-blur-sm tracking-wide">STOK HABIS</div>
+                            <div class="absolute inset-0 bg-earth-900/10 z-0"></div>
+                        @endif
                         @if(is_array($product->images) && count($product->images) > 0)
                             <img src="{{ asset('images/products/' . $product->images[0]) }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @elseif(file_exists(public_path('images/products/' . $product->id . '.jpg')))

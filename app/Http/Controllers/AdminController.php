@@ -26,6 +26,23 @@ class AdminController extends Controller
         return view('admin.orders', compact('orders'));
     }
 
+    public function checkNewOrders(Request $request)
+    {
+        $lastId = $request->query('last_id', 0);
+        $newOrders = Order::with('user')->where('id', '>', $lastId)->orderBy('id', 'asc')->get();
+        
+        return response()->json([
+            'has_new' => $newOrders->isNotEmpty(),
+            'orders' => $newOrders->map(function($order) {
+                return [
+                    'id' => $order->id,
+                    'total_amount' => number_format($order->total_amount, 2),
+                    'customer_name' => $order->shipping_address['first_name'] ?? $order->user->name ?? 'Pelanggan',
+                ];
+            })
+        ]);
+    }
+
     public function editOrder(string $id)
     {
         $order = Order::with(['orderItems.product', 'user'])->findOrFail($id);

@@ -20,6 +20,11 @@ class CartController extends Controller
         try {
             $product = Product::findOrFail($id);
             $qty = max(1, (int) $request->input('quantity', 1));
+            
+            if ($product->stock < $qty) {
+                return redirect()->back()->with('error', 'Maaf, stok produk tidak mencukupi. Sisa stok: ' . $product->stock);
+            }
+            
             $cart = session()->get('cart', []);
 
             if (isset($cart[$id])) {

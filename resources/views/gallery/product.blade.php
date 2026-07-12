@@ -35,8 +35,11 @@
 
             <!-- Right: Details -->
             <div class="flex flex-col">
-                <div class="mb-2">
+                <div class="mb-2 flex items-center gap-3">
                     <span class="inline-block px-3 py-1 bg-earth-100 text-earth-800 text-xs font-semibold rounded uppercase tracking-wider mb-4">{{ $product->production_method }}</span>
+                    @if($product->stock <= 0)
+                        <span class="inline-block px-3 py-1 bg-red-100 text-red-800 text-xs font-bold rounded uppercase tracking-wider mb-4">Stok Habis</span>
+                    @endif
                 </div>
                 <h1 class="text-4xl font-bold text-earth-900 mb-2">{{ $product->title }}</h1>
                 <p class="text-lg text-earth-500 mb-6">Masterpiece by <a href="{{ route('gallery.artist', $product->artist_id) }}" class="text-earth-800 underline decoration-earth-200 hover:text-earth-900">{{ $product->artist->name }}</a></p>
@@ -61,25 +64,32 @@
                     </p>
                 </div>
 
-                <div class="mt-auto pt-4">
                     <form action="{{ route('cart.add', $product->id) }}" method="POST">
                         @csrf
                         <!-- Quantity Selector -->
                         <div class="flex items-center gap-4 mb-4">
                             <label class="text-sm font-medium text-earth-700">{{ __('Jumlah') }}:</label>
-                            <div class="flex items-center border border-earth-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                                <button type="button" onclick="adjustQty(-1)" class="px-4 py-3 text-earth-700 hover:bg-earth-100 transition font-bold text-lg leading-none">−</button>
-                                <input type="number" name="quantity" id="qty-input" value="1" min="1" max="{{ $product->stock ?? 10 }}" class="w-16 text-center border-x border-earth-200 py-3 text-earth-900 font-semibold focus:outline-none focus:ring-0" readonly>
-                                <button type="button" onclick="adjustQty(1)" class="px-4 py-3 text-earth-700 hover:bg-earth-100 transition font-bold text-lg leading-none">+</button>
+                            <div class="flex items-center border border-earth-200 rounded-lg overflow-hidden bg-white shadow-sm {{ $product->stock <= 0 ? 'opacity-50' : '' }}">
+                                <button type="button" onclick="adjustQty(-1)" class="px-4 py-3 text-earth-700 hover:bg-earth-100 transition font-bold text-lg leading-none" {{ $product->stock <= 0 ? 'disabled' : '' }}>−</button>
+                                <input type="number" name="quantity" id="qty-input" value="{{ $product->stock <= 0 ? 0 : 1 }}" min="{{ $product->stock <= 0 ? 0 : 1 }}" max="{{ $product->stock ?? 10 }}" class="w-16 text-center border-x border-earth-200 py-3 text-earth-900 font-semibold focus:outline-none focus:ring-0" readonly>
+                                <button type="button" onclick="adjustQty(1)" class="px-4 py-3 text-earth-700 hover:bg-earth-100 transition font-bold text-lg leading-none" {{ $product->stock <= 0 ? 'disabled' : '' }}>+</button>
                             </div>
-                            <span class="text-sm text-earth-500">
-                                @if(($product->stock ?? 0) > 0) Stok: {{ $product->stock }} @endif
+                            <span class="text-sm font-bold {{ $product->stock <= 0 ? 'text-red-600' : 'text-earth-500' }}">
+                                @if(($product->stock ?? 0) > 0) Sisa Stok: {{ $product->stock }} @else Stok Habis @endif
                             </span>
                         </div>
-                        <button type="submit" class="w-full bg-earth-800 text-earth-100 py-4 rounded-lg text-lg font-medium hover:bg-earth-900 transition-colors shadow-md flex justify-center items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                            {{ __('Tambahkan ke Keranjang') }}
-                        </button>
+                        
+                        @if(($product->stock ?? 0) > 0)
+                            <button type="submit" class="w-full bg-earth-800 text-earth-100 py-4 rounded-lg text-lg font-medium hover:bg-earth-900 transition-colors shadow-md flex justify-center items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                {{ __('Tambahkan ke Keranjang') }}
+                            </button>
+                        @else
+                            <button type="button" disabled class="w-full bg-earth-200 text-earth-500 py-4 rounded-lg text-lg font-bold cursor-not-allowed flex justify-center items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                {{ __('STOK HABIS') }}
+                            </button>
+                        @endif
                     </form>
                 </div>
 
