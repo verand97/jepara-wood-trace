@@ -58,6 +58,9 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::get('/orders/{id}/edit', [AdminController::class, 'editOrder'])->name('orders.edit');
+    Route::put('/orders/{id}', [AdminController::class, 'updateOrder'])->name('orders.update');
+    Route::delete('/orders/{id}', [AdminController::class, 'destroyOrder'])->name('orders.destroy');
     Route::get('/products/create', [AdminController::class, 'create'])->name('products.create');
     Route::post('/products', [AdminController::class, 'store'])->name('products.store');
     Route::get('/products/{id}/edit', [AdminController::class, 'edit'])->name('products.edit');

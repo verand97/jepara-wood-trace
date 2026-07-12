@@ -26,6 +26,45 @@ class AdminController extends Controller
         return view('admin.orders', compact('orders'));
     }
 
+    public function editOrder(string $id)
+    {
+        $order = Order::with(['orderItems.product', 'user'])->findOrFail($id);
+        
+        $availableStatuses = [
+            'pending' => 'Menunggu Pembayaran',
+            'PAID_MOCK' => 'Lunas (Menunggu Diproses)',
+            'processing' => 'Sedang Diproses/Dikemas',
+            'shipped' => 'Sedang Diantar (Jasa Pengiriman)',
+            'delivered' => 'Pesanan Selesai (Tiba di Tujuan)',
+            'cancelled' => 'Dibatalkan'
+        ];
+
+        return view('admin.orders_edit', compact('order', 'availableStatuses'));
+    }
+
+    public function updateOrder(Request $request, string $id)
+    {
+        $order = Order::findOrFail($id);
+        
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        $order->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('admin.orders')->with('success', 'Status pesanan berhasil diperbarui.');
+    }
+
+    public function destroyOrder(string $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+        
+        return redirect()->route('admin.orders')->with('success', 'Data pesanan berhasil dihapus.');
+    }
+
     public function create()
     {
         $artists = Artist::all();
